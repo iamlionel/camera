@@ -16,12 +16,12 @@ class DoubleCamera internal constructor(
         context,
         when (cfg1.camType) {
             CamType.CAMERA -> SystemCamera(cfg1)
-            CamType.CAMERA2 -> System2Camera(context,cfg1)
+            CamType.CAMERA2 -> System2Camera(context, cfg1)
             CamType.UVC -> SystemCamera(cfg1)
         },
         when (cfg2?.camType) {
             CamType.CAMERA -> SystemCamera(cfg2)
-            CamType.CAMERA2 -> System2Camera(context,cfg2)
+            CamType.CAMERA2 -> System2Camera(context, cfg2)
             CamType.UVC -> SystemCamera(cfg2)
             else -> null
         }
@@ -37,5 +37,12 @@ class DoubleCamera internal constructor(
     fun stop() {
         cam1.stop()
         cam2?.stop()
+    }
+
+    fun setPreviewCallback(callback1: PreviewCallback, callback2: PreviewCallback?) {
+        cam1.setPreviewCallback(callback1)
+        callback2?.let {
+            cam2?.setPreviewCallback(it)
+        }
     }
 }
